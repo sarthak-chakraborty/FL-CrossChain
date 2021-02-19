@@ -1,0 +1,7 @@
+confluent-kafka
+six
+requests
+pymongo
+tensorflow
+numpy
+pyzmq

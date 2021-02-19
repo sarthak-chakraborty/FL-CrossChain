@@ -1,0 +1,129 @@
+version: '3.5'
+
+volumes:
+  aggregator:
+  db:
+  
+services:
+
+  registrar:
+    container_name: Registrar
+    build:
+      context: .
+      dockerfile: Dockerfile
+      shm_size: '1gb'
+    ipc: host
+    networks:
+      - ${NETWORK}
+    volumes:
+      - .:/app
+    depends_on:
+      - db
+      - coordinator
+    tty: true
+    command: ["python", "main.py", "registrar"]
+
+  selector:
+    container_name: Selector
+    build:
+      context: .
+      dockerfile: Dockerfile
+      shm_size: '1gb'
+    ipc: host
+    networks:
+      - ${NETWORK}
+    volumes:
+      - .:/app
+    depends_on:
+      - db
+      - coordinator
+    tty: true
+    command: ["python", "main.py", "selector"]
+
+  connector:
+    container_name: Connector
+    build:
+      context: .
+      dockerfile: Dockerfile
+      shm_size: '1gb'
+    ipc: host
+    networks:
+      - ${NETWORK}
+    volumes:
+      - .:/app
+    depends_on:
+      - db
+      - coordinator
+    tty: true
+    command: ["python", "main.py", "connector"]
+
+  aggregator:
+    container_name: Aggregator
+    build:
+      context: .
+      dockerfile: Dockerfile
+      shm_size: '1gb'
+    ipc: host
+    networks:
+      - ${NETWORK}
+    volumes:
+      - .:/app
+      - ./datasets/:/app/data
+    depends_on:
+      - db
+      - coordinator
+    tty: true
+    command: ["python", "main.py", "aggregator"]
+
+  deliverator:
+    container_name: Deliverator
+    build:
+      context: .
+      dockerfile: Dockerfile
+      shm_size: '1gb'
+    ipc: host
+    networks:
+      - ${NETWORK}
+    volumes:
+      - .:/app
+    depends_on:
+      - db
+      - coordinator
+    tty: true
+    command: ["python", "main.py", "deliverator"]
+
+  coordinator:
+    container_name: Coordinator
+    build:
+      context: .
+      dockerfile: Dockerfile
+      shm_size: '1gb'
+    ipc: host
+    networks:
+      - ${NETWORK}
+    volumes:
+      - .:/app
+    depends_on:
+      - db
+    tty: true
+    command: ["python", "main.py", "server"]
+
+  db:
+    container_name: Mongo
+    ipc: host
+    image: mongo:4.0
+    ports:
+      - "27017:27017"
+    logging:
+      driver: none
+    networks:
+      - ${NETWORK}
+    volumes:
+      - './data/db:/data/db'
+networks:
+  federated:
+    external: true
+  attachable-fl:
+    external: true
+  fl_ok:
+    external: true

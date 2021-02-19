@@ -1,0 +1,50 @@
+
+---
+  version: '3.5'
+  services:
+    zookeeper:
+      ipc: host
+      image: confluentinc/cp-zookeeper:5.5.1
+      ports:
+        - "2181:2181"
+      networks:
+        - ${NETWORK}
+      environment:
+        ZOOKEEPER_CLIENT_PORT: 2181
+    kafka:
+      ipc: host
+      image: confluentinc/cp-server:5.5.1
+      depends_on:
+        - zookeeper
+      hostname: kafka
+      ports:
+        - "9092:9092"
+      networks:
+        - ${NETWORK}
+      environment:
+        KAFKA_BROKER_ID: 1
+        KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+        KAFKA_LISTENERS: PLAINTEXT://kafka:29092,PLAINTEXT_HOST://0.0.0.0:9092
+        KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:29092,PLAINTEXT_HOST://localhost:9092
+        KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+        KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+        KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 0
+        KAFKA_CONFLUENT_LICENSE_TOPIC_REPLICATION_FACTOR: 1
+        KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
+        KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
+        KAFKA_MESSAGE_MAX_BYTES: 200000000
+        KAFKA_REPLICA_FETCH_MAX_BYTES: 200000000
+        KAFKA_QUEUED_MAX_REQUESTS: 100000
+        KAFKA_LOG_RETENTION_MS: 120000
+        KAFKA_LOG_RETENTION_CHECK_INTERVAL_MS: 20000
+        KAFKA_LOG_RETENTION_BYTES: 100000000
+        KAFKA_LOG_SEGMENT_BYTES: 50000000
+      volumes:
+        - /var/run/docker.sock:/var/run/docker.sock
+  networks:
+    federated:
+      external: true
+    attachable-fl:
+      external: true
+    fl_ok:
+      external: true

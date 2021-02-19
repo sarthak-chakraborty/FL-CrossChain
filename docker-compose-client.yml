@@ -1,0 +1,29 @@
+---
+version: '2.2'
+
+volumes:
+  client:
+  
+services:
+
+  client:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    cpus: 1
+    volumes:
+      - .:/app
+      - ./datasets/:/app/data
+    networks:
+      - ${NETWORK}
+    tty: true
+    command: ["python", "main.py", "client", "1"]
+
+networks:
+  federated:
+    external: true
+  attachable-fl:
+    external: true
+  fl_ok:
+    external: true
+
