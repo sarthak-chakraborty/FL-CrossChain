@@ -55,6 +55,7 @@ class Cifar10(Loader):
 		self.target_width = target_width
 		self.partition = partition
 		self.validation_split = validation_split
+		self.num_data = 0
 		self._train_ds = None
 		self._test_ds = None
 		self._val_ds = None
@@ -71,6 +72,7 @@ class Cifar10(Loader):
 														class_mode='sparse',
 														shuffle=False,
 														seed=0)
+			self.num_data = len(self._test_ds)
 
 		else:
 			data_dir = "/app/data/cifar-10/dataclient/{}/client_{}/".format(self.partition, self.client_id)

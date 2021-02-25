@@ -38,7 +38,11 @@ class Settings:
     # Mention the messaging infrastructure being used
     messaging_infra = "Kafka"
     
+    # Enable Cross-Chain Communication and Asset entry
+    enable_crosschain = True
+    
     # Dataset and partition strategy
+    dataset_id = 0
     dataset = 'cifar-10'
     input_shape = (256, 256, 3)
     partition = 'iid'

@@ -9,8 +9,7 @@ from federated.nodes.server.base_server import BaseServer
 ##############
 from pymongo import MongoClient
 import datetime
-from line_profiler import LineProfiler
-##############
+#########
 
 class Deliverator(BaseServer):
 	"""
@@ -53,23 +52,23 @@ class Deliverator(BaseServer):
 				print("Received DRM for {}".format(drm.client_endpoints))
 
 				##########################
-				lp = LineProfiler()
-				lp_wrapper = lp(self.sending)
-				lp_wrapper(drm, db)
-				lp.print_stats()
+				# lp = LineProfiler()
+				# lp_wrapper = lp(self.sending)
+				# lp_wrapper(drm, db)
+				# lp.print_stats()
 				###########################
 
-				# # Get the train_request and flags
-				# trq = drm.train_request
-				# cflags = drm.control_flags
-				# ##################
-				# if trq is not None:  
-				#     db.server_times.update_one({"version" : trq.kmodel.version}, {"$set" : {"del_send_ts" : datetime.datetime.utcnow()}})
-				# ###################
-				# # Send the model to appropriate clients
-				# for client_endpoint in drm.client_endpoints:
-				#     Sender.send(ClientMessage(client_endpoint=client_endpoint, control_flags=cflags, train_request=trq))
-				#     print("Message sent to {}".format(client_endpoint))
+				# Get the train_request and flags
+				trq = drm.train_request
+				cflags = drm.control_flags
+				##################
+				if trq is not None:  
+				    db.server_times.update_one({"version" : trq.kmodel.version}, {"$set" : {"del_send_ts" : datetime.datetime.utcnow()}})
+				###################
+				# Send the model to appropriate clients
+				for client_endpoint in drm.client_endpoints:
+				    Sender.send(ClientMessage(client_endpoint=client_endpoint, control_flags=cflags, train_request=trq))
+				    print("Message sent to {}".format(client_endpoint))
 
 
 	def sending(self, drm, db):

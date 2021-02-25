@@ -6,6 +6,7 @@ import datetime
 from threading import Thread
 import tensorflow as tf
 import numpy as np
+import requests
 
 
 from federated.models import KerasModel, Update, RemoteClient, ServerEvalMetric
@@ -35,6 +36,7 @@ class Aggregator(BaseServer):
 		"""
 		super(Aggregator, self).__init__(id)
 		self.model_id = model_id
+		self.url = "http://127.0.0.1:8050/enterAsset"
 		self.threshold = ServerConfig.aggregator_threshold
 		self.data_loader = Aggregator.load_test_dataset()
 
@@ -115,11 +117,11 @@ class Aggregator(BaseServer):
 				   				  },
 				   	"Gradients": [[1.0, 3.0], [12.6, 7.98]],
 				   	"Dataset": {
-				   				 "Dataset_ID": 0,
+				   				 "Dataset_ID": Settings.dataset_id,
 				   				 "Dataset_Name": Settings.dataset,
 				   				 "Train_Samples": 50000,
-				   				 "Test_Samples": 10000,
-				   				 "Val_Split": 0.0
+				   				 "Test_Samples": self.data_loader.num_data,
+				   				 "Val_Split": 0.1
 				   				},
 				   	"Metric": {
 				   				"Train_Loss": 2.14,
@@ -128,8 +130,9 @@ class Aggregator(BaseServer):
 				   				"Test_Acc": test_acc
 				   			  }
 				   	}
-
-
+			if Settings.enable_crosschain:
+				r = requests.post(url, json=obj)
+				print(r)
 
 			# Check if stopping criteria reached
 			if Aggregator.can_stop(ServerConfig.stopping_criteria, kmodel_global.version):
