@@ -1,0 +1,18 @@
+{
+	"installed_chaincodes": [
+		{
+			"package_id": "basic_1.0:8611c9ac53d2fe59ad2f699d600d3e7b87e8990cd232afd25ae5f7539be2008a",
+			"label": "basic_1.0",
+			"references": {
+				"mychannel": {
+					"chaincodes": [
+						{
+							"name": "basic",
+							"version": "1.0"
+						}
+					]
+				}
+			}
+		}
+	]
+}
