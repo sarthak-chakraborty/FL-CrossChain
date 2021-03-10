@@ -5,7 +5,7 @@ function chaincode-go() {
 }
 
 function test-network() {
-    cd "$HOME/KGP-Documents/MTP/Code/FL/fabric-samples/test-network-1"
+    cd "$HOME/FL-CrossChain/fabric-samples/test-network-1"
 }
 
 function application-go() {
