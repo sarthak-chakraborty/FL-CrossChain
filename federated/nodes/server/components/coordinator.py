@@ -1,5 +1,5 @@
 import tensorflow as tf
-
+import time
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense, Flatten
 
@@ -148,6 +148,7 @@ class Coordinator(BaseServer):
 				break
 
 			# Comment the two lines if Ready Message implemented. Also check Registrar and Selector
+			time.sleep(3)
 			print("Starting Selector...")
 			Sender.send(StartSignalMessage('Selector'))
 

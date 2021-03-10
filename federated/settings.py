@@ -44,7 +44,7 @@ class Settings:
     # Dataset and partition strategy
     dataset_id = 0
     dataset = 'cifar-10'
-    input_shape = (256, 256, 3)
+    input_shape = (32, 32, 3)
     partition = 'iid'
     test_batch_size = 100
     num_classes = 10

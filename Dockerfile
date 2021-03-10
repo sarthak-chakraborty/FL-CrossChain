@@ -5,5 +5,5 @@ RUN apt-get update && \
   gcc
 WORKDIR /app
 RUN pip install --upgrade pip
-RUN pip install confluent-kafka six requests pymongo tensorflow numpy pyzmq pillow image-classifiers tensorflow-datasets line_profiler graphviz objgraph pympler scipy
+RUN pip install confluent-kafka six requests pymongo tensorflow numpy pillow image-classifiers scipy
 ADD . /app

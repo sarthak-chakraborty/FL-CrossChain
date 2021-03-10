@@ -3,7 +3,7 @@ class ServerConfig:
 	"""
 	Mention any server configurations here
 	"""
-	model = "default"
+	model = "cnn"
 
 	hparams = {
 		"num_epochs": 2,

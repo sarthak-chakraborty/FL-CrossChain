@@ -19,7 +19,7 @@ class Sender:
 
     p = Producer({
             'bootstrap.servers': 'kafka:29092',
-            'message.max.bytes': 200000000
+            'message.max.bytes': 1000000000
         })
 
 
@@ -53,7 +53,7 @@ class Sender:
         cls.p.poll(0)
         # Wait for any outstanding messages to be delivered and delivery report
         # callbacks to be triggered.
-        # cls.p.flush()
+        cls.p.flush()
 
 
 def recv(message_class, count=1, endpoint=None, timeout=20, groupid='mygroup'):
@@ -71,8 +71,8 @@ def recv(message_class, count=1, endpoint=None, timeout=20, groupid='mygroup'):
     c = Consumer({
         'bootstrap.servers': 'kafka:29092',
         'group.id': str(groupid),
-        'message.max.bytes': 200000000,
-        'max.partition.fetch.bytes': 200000000,
+        'message.max.bytes': 1000000000,
+        'max.partition.fetch.bytes': 1000000000,
         'auto.offset.reset': 'earliest'
     })
 

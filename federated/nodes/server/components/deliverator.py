@@ -61,6 +61,7 @@ class Deliverator(BaseServer):
 				# Get the train_request and flags
 				trq = drm.train_request
 				cflags = drm.control_flags
+				print(cflags)
 				##################
 				if trq is not None:  
 				    db.server_times.update_one({"version" : trq.kmodel.version}, {"$set" : {"del_send_ts" : datetime.datetime.utcnow()}})
