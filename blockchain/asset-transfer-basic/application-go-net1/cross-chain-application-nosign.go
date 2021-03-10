@@ -75,16 +75,6 @@ type Asset_Pointer struct {
 	Round_No    int
 }
 
-type Signature struct {
-	Path 	string
-	Sigma 	string
-}
-
-type Transfer struct {
-	Asset 		Asset_Full
-	Sign 		Signature	
-}
-
 
 //////////////////////////////////////////////////////////////
 
@@ -227,47 +217,16 @@ func main() {
 		if err != nil {
 			panic(err)
 		}
-		var transfer Transfer
-		err = json.Unmarshal(bodyBytes, &transfer)
+		var asset Asset_Full
+		err = json.Unmarshal(bodyBytes, &asset_full)
 		if err != nil {
 			panic(err)
 		}
-
-		sign := transfer.Sign
-		asset := transfer.Asset
-
-		// Verify Sign
-		start_verify := time.Now()
-		bytes_mssg, _ := json.Marshal(asset)
-		resp, err = http.PostForm("http://127.0.0.1:12001/verifyMessage", url.Values{"key_path": {sign.Path}, "sigma": {sign.Sigma}, "message": {string(bytes_mssg)}})
-		if err != nil {
-			panic(err)
-		}
-		defer resp.Body.Close()
-
-		bodyBytes, err = ioutil.ReadAll(resp.Body)
-		if err != nil {
-			panic(err)
-		}
-
-		type Succ struct {
-			Success		bool
-		}
-		var result Succ
-		err = json.Unmarshal(bodyBytes, &result)
-		if err != nil {
-			panic(err)
-		}
-		duration_verify := time.Since(start_verify)
-		fmt.Println("Verification Time: ", duration_verify)
-
-		if (result.Success == true){
-			file,_ := json.Marshal(asset)
-			_ = ioutil.WriteFile("/home/sarthak/KGP-Documents/MTP/Code/FL/received_asset-cifar.json", file, 0644)
-			fmt.Println("Asset with ID = ", asset.ID, " received")
-		} else {
-			fmt.Println("===== VERIFICATION FAILED !! ========")
-		}
+		
+		file,_ := json.Marshal(asset)
+		_ = ioutil.WriteFile("/home/sarthak/KGP-Documents/MTP/Code/FL/received_asset-cifar.json", file, 0644)
+		
+		fmt.Println("Asset with ID = ", asset.ID, " received")
 		
 	},)
 
@@ -336,34 +295,7 @@ func main() {
 
 		fmt.Println("Asset Retrieval Time: ", duration.Milliseconds())
 
-		// Implement CoSi Protocol
-		bytes_mssg, _ := json.Marshal(asset_full)
-		start_cosi := time.Now()
-		numOrgs := 2	// TODO: How to know this??
-		resp, err := http.PostForm("http://127.0.0.1:12000/signMessage", url.Values{"num": {strconv.Itoa(numOrgs)}, "message": {string(bytes_mssg)}})
-		if err != nil {
-			panic(err)
-		}
-		defer resp.Body.Close()
-
-		bodyBytes, err := ioutil.ReadAll(resp.Body)
-		if err != nil {
-			panic(err)
-		}
-		var sign Signature
-		err = json.Unmarshal(bodyBytes, &sign)
-		if err != nil {
-			panic(err)
-		}
-		duration_cosi := time.Since(start_cosi)
-		fmt.Println("CoSi Time: ", duration_cosi.Milliseconds())
-
-		transfer := Transfer {
-			Asset : asset_full,
-			Sign : sign,
-		}
-
-		bytes, _ := json.Marshal(transfer)
+		bytes, _ := json.Marshal(asset_full)
 		w.Write(bytes)
 	},)
 
