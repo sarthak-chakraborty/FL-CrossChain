@@ -185,7 +185,7 @@ func main() {
 			frag_no := j
 
 			asset := Asset{
-				ID: recv_asset.ID "_" + strconv.Itoa(frag_no),
+				ID: recv_asset.ID + "_" + strconv.Itoa(frag_no),
 				Round_No: recv_asset.Round_No,
 				Fragment_No: frag_no,
 				Node: recv_asset.Node,
@@ -204,11 +204,11 @@ func main() {
 			}
 			log.Println("Asset Entered with ID: ", asset.ID)
 			duration2 := time.Since(start2)
-			frag_time = append(frag_time, duration2.Milliseconds())
+			// frag_time = append(frag_time, duration2.Milliseconds())
 			fmt.Println("Time: ", duration2.Milliseconds())
 		}
 		duration1 := time.Since(start1)
-		asset_time = append(asset_time, duration1.Milliseconds())
+		// asset_time = append(asset_time, duration1.Milliseconds())
 		fmt.Println("Asset Time: ", duration1.Milliseconds())
 	},)
 
