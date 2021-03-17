@@ -10,7 +10,7 @@ im_label = []
 for file in os.listdir(IN_PATH):
 	if file.startswith("data_batch"):
 		with open(os.path.join(IN_PATH, file), 'rb') as fo:
-			d = pickle.load(fo)
+			d = pickle.load(fo, encoding='bytes')
 
 		im.append(d[b'data'])
 		im_label.append(d[b'labels'])
@@ -38,4 +38,4 @@ new_im = np.array(new_im)
 
 data = {'data': new_im, 'label':im_label}
 
-pickle.dump(data, open(os.path.join(OUT_PATH, 'data.pkl'), 'wb'))
+pickle.dump(data, open(os.path.join(OUT_PATH, 'testdata.pkl'), 'wb'))

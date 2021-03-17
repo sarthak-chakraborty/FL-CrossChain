@@ -102,14 +102,14 @@ def divide_data(datadir, type, dict_users):
             im.save(savefile)
             c += 1
             if c % 100 == 0:
-                print(c)
+                print(c, end='\r')
 
 
 if __name__ == '__main__':
     dataset_name = sys.argv[1]
 
     with open('../datasets/{}/data.pkl'.format(dataset_name), 'rb') as f:
-        dataset = pickle.load(f)
+        dataset = pickle.load(f, encoding='latin1')
     num_classes = len(np.unique(dataset['label']))
     overlapping_classes = 40
 
@@ -134,7 +134,7 @@ if __name__ == '__main__':
 
     # Load test data
     with open('../datasets/{}/testdata.pkl'.format(dataset_name), 'rb') as f:
-        dataset = pickle.load(f)
+        dataset = pickle.load(f, encoding='latin1')
 
     datadir = "../datasets/" + dataset_name + "/testdata/"
     try:
@@ -155,4 +155,5 @@ if __name__ == '__main__':
         im.save(savefile)
         c += 1
         if c % 100 == 0:
-            print(c)
+            print(c, end='\r')
+
