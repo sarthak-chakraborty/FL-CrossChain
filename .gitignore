@@ -4,3 +4,4 @@ cifar-10-python.tar.gz
 blockchain/bin
 blockchain/asset-transfer-basic/chaincode-go/vendor
 fabric-samples/
+*.pyc
