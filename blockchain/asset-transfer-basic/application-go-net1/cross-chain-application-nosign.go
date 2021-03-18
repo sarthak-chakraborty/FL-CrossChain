@@ -218,7 +218,7 @@ func main() {
 			panic(err)
 		}
 		var asset Asset_Full
-		err = json.Unmarshal(bodyBytes, &asset_full)
+		err = json.Unmarshal(bodyBytes, &asset)
 		if err != nil {
 			panic(err)
 		}

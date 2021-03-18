@@ -131,7 +131,7 @@ class Aggregator(BaseServer):
 				   			  }
 				   	}
 			if Settings.enable_crosschain:
-				r = requests.post(url, json=obj)
+				r = requests.post(self.url, json=obj)
 				print(r)
 
 			# Check if stopping criteria reached

@@ -15,6 +15,7 @@ docker image prune -f
 docker volume prune -f
 export NETWORK=$1
 docker-compose -f docker-compose-kafka.yml up --build -d
+curl -sSL https://bit.ly/2ysbOFE | bash -s -- 2.2.0 1.4.8
 source fabric-samples/test-network-1/run-crosschain.sh
 nohup go run cross-chain-application.go > cross-chain.out
 nohup python peerApplication/sign.py > sign.out
