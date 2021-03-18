@@ -38,4 +38,4 @@ new_im = np.array(new_im)
 
 data = {'data': new_im, 'label':im_label}
 
-pickle.dump(data, open(os.path.join(OUT_PATH, 'testdata.pkl'), 'wb'))
+pickle.dump(data, open(os.path.join(OUT_PATH, 'data.pkl'), 'wb'))
