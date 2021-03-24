@@ -110,7 +110,7 @@ class Aggregator(BaseServer):
 			server_weights = kmodel_global.weights
 			
 			print("INFOS")
-			print(len(server_weights)
+			print(len(server_weights))
 			
 			for index in range(len(server_weights)):
 				feature_weight = server_weights[index]
