@@ -105,11 +105,29 @@ class Aggregator(BaseServer):
 			# Save aggregate model
 			print("Saving new global model...")
 			kmodel_global.commit()
+			
+			new_weights = []
+			server_weights = kmodel_global.weights
+			
+			print("INFOS")
+			print(len(server_weights)
+			
+			for index in range(len(server_weights)):
+				feature_weight = server_weights[index]
+				print(len(feature_weight.shape)
+				if len(feature_weight.shape) == 1:
+					new_weights.append(feature_weight.reshape(feature_weight.shape[0], 1, 1, 1).tolist())
+				elif len(feature_weight.shape) == 2:
+					new_weights.append(feature_weight.reshape(feature_weight.shape[0], feature_weight.shape[1], 1, 1).tolist())
+				elif len(feature_weight.shape) == 3:
+					new_weights.append(feature_weight.reshape(feature_weight.shape[0], feature_weight.shape[1], feature_weight.shape[2], 1).tolist())
+				else:
+					new_weights.append(feature_weight.tolist())
 
 			obj = {"ID": "server_round_"+str(kmodel_global.version),
 				   "Round_No": kmodel_global.version,
 				   "Node": "server",
-				   "Weights": kmodel_global.weights,
+				   "Weights": new_weights,
 				   "hyperparams":{
 				   				  "Epoch": ServerConfig.hparams["num_epochs"],
 				   				  "Batch_Size": ServerConfig.hparams["batch_size"],
