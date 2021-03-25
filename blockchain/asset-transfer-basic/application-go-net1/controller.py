@@ -4,10 +4,10 @@ import struct
 
 url = "http://127.0.0.1:8050/enterAsset"
 
-arr = [[1.5, 3.34, 43.22], [12.6, 7.98, 35.44]]
+arr = [[[[[1]]]]]
 
-obj = {"ID": "server_round_3",
-	   "Round_No": 6,
+obj = {"ID": "server_round_500",
+	   "Round_No": 500,
 	   "Node": "server",
 	   "Weights": arr,
 	   "hyperparams":{
