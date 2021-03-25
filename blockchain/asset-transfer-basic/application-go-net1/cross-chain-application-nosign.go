@@ -224,7 +224,7 @@ func main() {
 		}
 		
 		file,_ := json.Marshal(asset)
-		_ = ioutil.WriteFile("/home/sarthak/KGP-Documents/MTP/Code/FL/received_asset-cifar.json", file, 0644)
+		_ = ioutil.WriteFile("$HOME/FL-CrossChain/received_asset-cifar.json", file, 0644)
 		
 		fmt.Println("Asset with ID = ", asset.ID, " received")
 		

@@ -109,12 +109,8 @@ class Aggregator(BaseServer):
 			new_weights = []
 			server_weights = kmodel_global.weights
 			
-			print("INFOS")
-			print(len(server_weights))
-			
 			for index in range(len(server_weights)):
 				feature_weight = server_weights[index]
-				print(len(feature_weight.shape))
 				if len(feature_weight.shape) == 1:
 					new_weights.append(feature_weight.reshape(feature_weight.shape[0], 1, 1, 1).tolist())
 				elif len(feature_weight.shape) == 2:
@@ -149,6 +145,7 @@ class Aggregator(BaseServer):
 				   			  }
 				   	}
 			if Settings.enable_crosschain:
+				print("Entering Asset with ID {} in blockchain...".format(obj["ID"]))
 				r = requests.post(self.url, json=obj)
 				print(r)
 
