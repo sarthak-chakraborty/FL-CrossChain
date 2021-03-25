@@ -36,7 +36,7 @@ class Aggregator(BaseServer):
 		"""
 		super(Aggregator, self).__init__(id)
 		self.model_id = model_id
-		self.url = "http://127.0.0.1:8050/enterAsset"
+		self.url = "http://web:8050/enterAsset"
 		self.threshold = ServerConfig.aggregator_threshold
 		self.data_loader = Aggregator.load_test_dataset()
 
@@ -114,7 +114,7 @@ class Aggregator(BaseServer):
 			
 			for index in range(len(server_weights)):
 				feature_weight = server_weights[index]
-				print(len(feature_weight.shape)
+				print(len(feature_weight.shape))
 				if len(feature_weight.shape) == 1:
 					new_weights.append(feature_weight.reshape(feature_weight.shape[0], 1, 1, 1).tolist())
 				elif len(feature_weight.shape) == 2:

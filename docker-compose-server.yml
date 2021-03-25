@@ -63,6 +63,8 @@ services:
       context: .
       dockerfile: Dockerfile
       shm_size: '1gb'
+    extra_hosts:
+        - "web:10.254.254.254"
     ipc: host
     networks:
       - ${NETWORK}
