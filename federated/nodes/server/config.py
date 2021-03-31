@@ -14,8 +14,8 @@ class ServerConfig:
 
 
 	# Synchronous Setting Parameters
-	selector_threshold = 2
-	aggregator_threshold = 2
+	selector_threshold = 10
+	aggregator_threshold = 10
 
 
 class DatabaseConfig:

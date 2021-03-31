@@ -206,7 +206,7 @@ func main() {
 
 	// MAKE REQUEST handler
 	http.HandleFunc( "/makeRequest", func(w http.ResponseWriter, r *http.Request) {
-		resp, err := http.PostForm("http://127.0.0.1:8050/fetchData", url.Values{"key": {"Value"}, "id": {"123"}})
+		resp, err := http.PostForm("http://0.0.0.0:8050/fetchData", url.Values{"key": {"Value"}, "id": {"123"}})
 		if err != nil {
 			panic(err)
 		}
@@ -224,7 +224,7 @@ func main() {
 		}
 		
 		file,_ := json.Marshal(asset)
-		_ = ioutil.WriteFile("$HOME/FL-CrossChain/received_asset-cifar.json", file, 0644)
+		_ = ioutil.WriteFile("./received_asset-cifar.json", file, 0777)
 		
 		fmt.Println("Asset with ID = ", asset.ID, " received")
 		
@@ -301,9 +301,9 @@ func main() {
 
 
 
-	fmt.Println("============ Listening at 127.0.0.1:8050 ============")
+	fmt.Println("============ Listening at 0.0.0.0:8050 ============")
 
-	http.ListenAndServe("127.0.0.1:8050", nil)
+	http.ListenAndServe("0.0.0.0:8050", nil)
 }
 
 
