@@ -47,7 +47,7 @@ class Sender:
                 print('[Kafka] Message delivery failed: {}'.format(err))
             else:
                 print('[Kafka] Message delivered to {} [{}]'.format(msg.topic(), msg.partition()))
-
+	print(message.endpoint)
         cls.p.produce(message.endpoint, message.serialize(), callback=delivery_report)
 
         cls.p.poll(0)
@@ -101,6 +101,11 @@ def recv(message_class, count=1, endpoint=None, timeout=20, groupid='mygroup'):
                     continue
 
                 results.append(message_class.deserialize(msg.value()))
+                try:
+                    print(results[-1].client_endpoint())
+                except:
+                    print("Client Endpoint not found for "),
+                    print(message_class)
 
     else:
         while count > 0:
@@ -116,6 +121,12 @@ def recv(message_class, count=1, endpoint=None, timeout=20, groupid='mygroup'):
                 #                   str(msg.key())))
                 count -= 1
                 results.append(message_class.deserialize(msg.value()))
+                try:
+                    print(results[-1].client_endpoint())
+                except:
+                    print("Client Endpoint not found for "),
+                    print(message_class)
+
 
     c.close()
     return results
