@@ -48,7 +48,7 @@ class Sender:
 			else:
 				print('[Kafka] Message delivered to {} [{}]'.format(msg.topic(), msg.partition()))
 
-		print(message.endpoint)
+		print("[Send Endpoint] {}".format(message.endpoint))
 		cls.p.produce(message.endpoint, message.serialize(), callback=delivery_report)
 
 		cls.p.poll(0)
@@ -74,6 +74,7 @@ def recv(message_class, count=1, endpoint=None, timeout=20, groupid='mygroup'):
 		'group.id': str(groupid),
 		'message.max.bytes': 1000000000,
 		'max.partition.fetch.bytes': 1000000000,
+		'auto.commit.interval.ms': 8000,
 		'auto.offset.reset': 'earliest'
 	})
 
@@ -87,6 +88,7 @@ def recv(message_class, count=1, endpoint=None, timeout=20, groupid='mygroup'):
 		topic = message_class.endpoint
 	else:
 		topic = endpoint
+
 	create_topics([topic])
 	c.subscribe([topic], on_assign=print_assignment)
 	# Read messages from Kafka, append to result
@@ -103,13 +105,13 @@ def recv(message_class, count=1, endpoint=None, timeout=20, groupid='mygroup'):
 
 				results.append(message_class.deserialize(msg.value()))
 				try:
-					print(results[-1].client_endpoint())
+					print("[Receive Endpoint] {} [{}, {}]".format(results[-1].client_endpoint(), msg.topic(), msg.partition()))
 				except:
-					print("Client Endpoint not found for "),
-					print(message_class)
+					print("[Receive Endpoint] Client Endpoint not found for {}".format(message_class))
 
 	else:
 		while count > 0:
+			print("[COUNT]: ", count)
 			msg = c.poll(1.0)
 
 			if msg is None:
@@ -120,13 +122,12 @@ def recv(message_class, count=1, endpoint=None, timeout=20, groupid='mygroup'):
 				# sys.stderr.write('%% %s [%d] at offset %d with key %s:\n' %
 				#                  (msg.topic(), msg.partition(), msg.offset(),
 				#                   str(msg.key())))
-				count -= 1
 				results.append(message_class.deserialize(msg.value()))
+				count -= 1
 				try:
-					print(results[-1].client_endpoint())
+					print("[Receive Endpoint] {} [{}, {}]".format(results[-1].client_endpoint(), msg.topic(), msg.partition()))
 				except:
-					print("Client Endpoint not found for "),
-					print(message_class)
+					print("[Receive Endpoint] Client Endpoint not found for {}".format(message_class))
 
 
 	c.close()
