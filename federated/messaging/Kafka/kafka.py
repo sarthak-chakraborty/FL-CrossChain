@@ -111,7 +111,6 @@ def recv(message_class, count=1, endpoint=None, timeout=20, groupid='mygroup'):
 
 	else:
 		while count > 0:
-			print("[COUNT]: ", count)
 			msg = c.poll(1.0)
 
 			if msg is None:
@@ -119,6 +118,7 @@ def recv(message_class, count=1, endpoint=None, timeout=20, groupid='mygroup'):
 			if msg.error():
 				raise KafkaException(msg.error())
 			else:
+				print("[COUNT]: ", count)
 				# sys.stderr.write('%% %s [%d] at offset %d with key %s:\n' %
 				#                  (msg.topic(), msg.partition(), msg.offset(),
 				#                   str(msg.key())))
