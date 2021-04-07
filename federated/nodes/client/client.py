@@ -239,47 +239,51 @@ class Client(Node):
 			if not self.load_data:
 				data = Client.load_dataset(self.id, self.hparams["batch_size"])
 				print("Dataset loaded")
-				# print("Loading test dataset")
-				# test_data = Client.load_testdataset(self.hparams["batch_size"])
+				print("Loading test dataset")
+				test_data = Client.load_testdataset(self.hparams["batch_size"])
 				self.load_data = True
 
 			###############
-			# print("Will start pretests")
-			# preval_loss, preval_acc = self.model.evaluate(data.val_dataset)
-			# print("Done pretests")
-			# if test_data:
-			# 	pretest_loss, pretest_acc = self.model.evaluate(test_data.test_dataset)
-			# else:
-			# 	pretest_loss, pretest_acc = 0, 1
+			print("Will start pretests")
+			preval_loss, preval_acc = self.model.evaluate(data.val_dataset)
+			print("Done pretests")
+			if test_data:
+				pretest_loss, pretest_acc = self.model.evaluate(test_data.test_dataset)
+			else:
+				pretest_loss, pretest_acc = 0, 1
 			###############
 
+			weights = kmodel.get_weights()
+			print("[{}, Client_{}] {}, {}".format(self.endpoint, self.id, weights[0][0][0][0], weights[0][0][0][1]))
 			kmodel, new_model, history = self.train_model(data, kmodel)
 
 			################
-			# if test_data:
-			# 	posttest_loss, posttest_acc = new_model.evaluate(test_data.test_dataset)
-			# else:
-			# 	posttest_loss, posttest_acc = 0, 1
-			# postval_loss, postval_acc = new_model.evaluate(data.val_dataset)
-			# db.pretrain_logs.insert_one({
-			# 								"client_id":self.id, 
-			# 								"recv_version":kmodel.version, 
-			# 								"pretest_loss":pretest_loss, 
-			# 								"pretest_acc":pretest_acc,
-			# 								"posttest_loss":posttest_loss, 
-			# 								"posttest_acc":posttest_acc,
-			# 								"preval_loss":preval_loss, 
-			# 								"preval_acc":preval_acc,
-			# 								"postval_loss":postval_loss, 
-			# 								"postval_acc":postval_acc,
-			# 								"server_sent_ts":server_sent_ts,
-			# 								"lambda":Settings.delay[self.id]							
-			# 							})
+			if test_data:
+				posttest_loss, posttest_acc = new_model.evaluate(test_data.test_dataset)
+			else:
+				posttest_loss, posttest_acc = 0, 1
+			postval_loss, postval_acc = new_model.evaluate(data.val_dataset)
+			db.pretrain_logs.insert_one({
+											"client_id":self.id, 
+											"recv_version":kmodel.version, 
+											"pretest_loss":pretest_loss, 
+											"pretest_acc":pretest_acc,
+											"posttest_loss":posttest_loss, 
+											"posttest_acc":posttest_acc,
+											"preval_loss":preval_loss, 
+											"preval_acc":preval_acc,
+											"postval_loss":postval_loss, 
+											"postval_acc":postval_acc,
+											"server_sent_ts":server_sent_ts,
+											"lambda":Settings.delay[self.id]							
+										})
 			###############
 
 			time.sleep(int(np.random.poisson(Settings.delay[self.id])))
 
 			# Send update
+			weights = kmodel.get_weights()
+			print("[{}, Client_{}] {}, {}".format(self.endpoint, self.id, weights[0][0][0][0], weights[0][0][0][1]))
 			self.send_update(kmodel, data, history, server_sent_ts, client_recv_ts)
 
 
