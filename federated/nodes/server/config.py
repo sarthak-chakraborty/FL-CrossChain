@@ -7,7 +7,7 @@ class ServerConfig:
 
 	hparams = {
 		"num_epochs": 2,
-		"batch_size": 8
+		"batch_size": 16
 	}
 
 	stopping_criteria = {"version": 5000}

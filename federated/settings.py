@@ -39,7 +39,7 @@ class Settings:
     messaging_infra = "Kafka"
     
     # Enable Cross-Chain Communication and Asset entry
-    enable_crosschain = False
+    enable_crosschain = True
     
     # Dataset and partition strategy
     dataset_id = 0
