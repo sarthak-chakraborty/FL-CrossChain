@@ -4,10 +4,10 @@ from tensorflow.keras import Input
 from tensorflow.keras.layers import Conv2D, BatchNormalization, MaxPool2D, ZeroPadding2D, Activation, Flatten, Dense
 
 
-def Firei, (x, squeeze_planes, expand1x1_planes, expand3x3_planes):
+def Fire(i, x, squeeze_planes, expand1x1_planes, expand3x3_planes):
 	# Squeeze
 	x = Conv2D(squeeze_planes, kernel_size=(1,1), name="conv-squeeze-{}".format(i))(x)
-	x = Activation('relu', "activation-squeeze-{}".format(i))(x)
+	x = Activation('relu', name="activation-squeeze-{}".format(i))(x)
 
 	# Expand
 	expand1x1 = Conv2D(expand1x1_planes, kernel_size=(1,1), name="conv-expand1-{}".format(i))(x)
@@ -24,13 +24,14 @@ def Firei, (x, squeeze_planes, expand1x1_planes, expand3x3_planes):
 
 def VGG(shape, num_classes, size=512):
 	tensor = Input(shape=shape)
-
-	x = Conv2D(8, kernel_size=(3, 3), name="conv-initial")(tensor)
+	
+	x = ZeroPadding2D(padding=(2,2), name="zeropad-initial".format(i))(tensor)
+	x = Conv2D(8, kernel_size=(3, 3), name="conv-initial")(x)
 	x = BatchNormalization(momentum=0.1, epsilon=1e-5, name="BN")(x)
 	x = Activation('relu', name="activation-initial")(x)
 
 	# Channels
-	layers = [32, 'M', 64, 'M', 128, 128, 'M', 128, 128, 'M', 128, 128, 'M']
+	layers = [32, 'M', 64, 'M', 128, 128, 'M', 128, 128, 128, 'M']
 
 	for i, channels in enumerate(layers):
 		if channels == 'M':
