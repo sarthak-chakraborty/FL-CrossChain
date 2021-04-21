@@ -3,7 +3,7 @@ import time
 import json
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense, Flatten
-
+from classification_models.tfkeras import Classifiers
 from federated.messaging.Kafka.kafka import Sender
 from federated.models import KerasModel, Update, RemoteClient, ClientUpdateMetric, ServerEvalMetric, ClientMessageMetric
 from federated.messaging.messages import StartSignalMessage, ReadyMessage, CoordinatorRequestMessage
@@ -61,6 +61,16 @@ class Coordinator(BaseServer):
 		loss_fn = tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True)
 		metrics = ['accuracy']
 		return model, optimizer, loss_fn, metrics
+	
+		
+	@staticmethod
+	def get_resnet_model():
+		ResNet18, _ = Classifiers.get('resnet18')
+		model = ResNet18(Settings.input_shape, weights=None, classes=Settings.num_classes)
+		optimizer = 'adam'
+		loss_fn = tf.keras.losses.SparseCategoricalCrossentropy()
+		metrics = ['accuracy']
+		return model, optimizer, loss_fn, metrics
 		
 		
 	@staticmethod
@@ -83,6 +93,8 @@ class Coordinator(BaseServer):
 			return Coordinator.get_mobilenet_model()
 		elif model == "vgg11":
 			return Coordinator.get_vgg_model()
+		elif model == "resnet":
+			return Coordinator.get_resnet_model()
 	
 	@staticmethod
 	def set_weights(model):
