@@ -125,7 +125,7 @@ if __name__ == '__main__':
 
     np.random.seed(0)
 
-    if num_clients >= 20:
+    if num_clients >= 100:
         dict_users = cifar_noniid(overlapping_classes, dataset, num_clients, num_classes)
         divide_data(datadir, 'noniid', dict_users)
 
