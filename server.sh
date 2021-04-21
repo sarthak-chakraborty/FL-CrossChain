@@ -22,11 +22,11 @@ nohup go run cross-chain-application.go > cross-chain.out &
 sudo apt install -y net-tools
 sudo ifconfig lo:0 10.254.254.254
 
+home
 docker-compose -f docker-compose-kafka.yml up --build -d
 # nohup python peerApplication/sign.py > sign.out
 # nohup python peerApplication/verify.py > verify.out
 
-home
 docker-compose -f docker-compose-server.yml up --build
 # sleep 1
 # tail -f nohup.out

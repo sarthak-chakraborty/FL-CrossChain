@@ -7,15 +7,16 @@ class ServerConfig:
 
 	hparams = {
 		"num_epochs": 2,
-		"batch_size": 8
+		"batch_size": 16
 	}
 
 	stopping_criteria = {"version": 5000}
-
+	
+	weights = './received_asset_cifar_2.json
 
 	# Synchronous Setting Parameters
-	selector_threshold = 10
-	aggregator_threshold = 10
+	selector_threshold = 40
+	aggregator_threshold = 40
 
 
 class DatabaseConfig:

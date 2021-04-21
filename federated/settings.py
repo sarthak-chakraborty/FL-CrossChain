@@ -39,7 +39,7 @@ class Settings:
     messaging_infra = "Kafka"
     
     # Enable Cross-Chain Communication and Asset entry
-    enable_crosschain = False
+    enable_crosschain = True
     
     # Dataset and partition strategy
     dataset_id = 0
@@ -66,8 +66,7 @@ class Settings:
     #delay =  4 * [40] + 8 * [160] + 16 * [280] + 16 * [400] + 8 * [520] + 4 * [640]
     #delay =  4 * [2.5] + 8 * [5] + 18 * [10] + 18 * [20] + 8 * [30] + 4 * [40]
     #delay =  4 * [10] + 8 * [40] + 18 * [70] + 18 * [100] + 8 * [130] + 4 * [160]
-    delay =  10 * [2]
-
+    delay =  40 * [2]
     
 
 

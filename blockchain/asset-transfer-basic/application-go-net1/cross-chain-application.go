@@ -216,7 +216,8 @@ func main() {
 
 	// MAKE REQUEST handler
 	http.HandleFunc( "/makeRequest", func(w http.ResponseWriter, r *http.Request) {
-		resp, err := http.PostForm("http://127.0.0.1:8050/fetchData", url.Values{"key": {"Value"}, "id": {"123"}})
+		ip := "0.0.0.0"
+		resp, err := http.PostForm("http://"+ip+":8050/fetchData", url.Values{"key": {"Value"}, "id": {"123"}})
 		if err != nil {
 			panic(err)
 		}
@@ -239,7 +240,7 @@ func main() {
 		// Verify Sign
 		start_verify := time.Now()
 		bytes_mssg, _ := json.Marshal(asset)
-		resp, err = http.PostForm("http://127.0.0.1:12001/verifyMessage", url.Values{"key_path": {sign.Path}, "sigma": {sign.Sigma}, "message": {string(bytes_mssg)}})
+		resp, err = http.PostForm("http://"+ip+":8051/verifyMessage", url.Values{"key_path": {sign.Path}, "sigma": {sign.Sigma}, "message": {string(bytes_mssg)}})
 		if err != nil {
 			panic(err)
 		}
@@ -263,7 +264,7 @@ func main() {
 
 		if (result.Success == true){
 			file,_ := json.Marshal(asset)
-			_ = ioutil.WriteFile("/home/sarthak/KGP-Documents/MTP/Code/FL/received_asset-cifar.json", file, 0644)
+			_ = ioutil.WriteFile("./received_asset-cifar.json", file, 0777)
 			fmt.Println("Asset with ID = ", asset.ID, " received")
 		} else {
 			fmt.Println("===== VERIFICATION FAILED !! ========")
@@ -340,7 +341,7 @@ func main() {
 		bytes_mssg, _ := json.Marshal(asset_full)
 		start_cosi := time.Now()
 		numOrgs := 2	// TODO: How to know this??
-		resp, err := http.PostForm("http://127.0.0.1:12000/signMessage", url.Values{"num": {strconv.Itoa(numOrgs)}, "message": {string(bytes_mssg)}})
+		resp, err := http.PostForm("http://0.0.0.0:8051/signMessage", url.Values{"num": {strconv.Itoa(numOrgs)}, "message": {string(bytes_mssg)}})
 		if err != nil {
 			panic(err)
 		}
@@ -369,9 +370,9 @@ func main() {
 
 
 
-	fmt.Println("============ Listening at 127.0.0.1:8050 ============")
+	fmt.Println("============ Listening at 0.0.0.0:8050 ============")
 
-	http.ListenAndServe("127.0.0.1:8050", nil)
+	http.ListenAndServe("0.0.0.0:8050", nil)
 }
 
 

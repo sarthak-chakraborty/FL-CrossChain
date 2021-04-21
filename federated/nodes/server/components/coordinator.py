@@ -1,5 +1,6 @@
 import tensorflow as tf
 import time
+import json
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense, Flatten
 
@@ -82,7 +83,32 @@ class Coordinator(BaseServer):
 			return Coordinator.get_mobilenet_model()
 		elif model == "vgg11":
 			return Coordinator.get_vgg_model()
+	
+	@staticmethod
+	def set_weights(model):
+		if ServerConfig.weights == None:
+			return model
+		else:	
+			w = None
+			try:
+			    f_open = open(ServerConfig.weights,)
+			    data = json.load(f_open)
+			    print(data.keys())
 
+			    w = np.array(data['weights'])
+			    for i in range(len(w)):
+			        w[i] = np.array(w[i])
+			        if w[i].shape[1] == 1:
+			            w[i] = w[i].reshape(w[i].shape[0])
+			except:
+			    w = None
+
+			if w == None:
+				return model
+			else:
+				model.set_weights(w)
+				return model
+				
 
 	@staticmethod
 	def init_db():
@@ -94,6 +120,7 @@ class Coordinator(BaseServer):
 		ServerEvalMetric.destroy_db()
 		
 		model, optimizer, loss_fn, metrics = Coordinator.get_initial_model()
+		model = Coordinator.set_weights(model)
 		print(model.summary())
 		kmodel = KerasModel(
 			id=1,

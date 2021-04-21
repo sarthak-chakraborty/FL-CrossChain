@@ -45,7 +45,7 @@ def signature(client_id, path, message, params, bin_signs):
 
 
 def gen_keys(num):
-	PATH = '/home/sarthak/KGP-Documents/MTP/Code/Hyperledger/fabric-samples/asset-transfer-basic/application-go-net1'
+	PATH = '../'
 	folder_name = 'artifacts'
 	FOLDER_PATH = os.path.join(PATH, folder_name)
 
@@ -75,6 +75,30 @@ def gen_keys(num):
 		f.close()
 
 	return params, FOLDER_PATH, PRIVATE_KEY_PATH, PUBLIC_KEY_PATH
+	
+
+def read_keys(path, params):
+	(G, o, g1, g2, e) = params
+	keys = {}
+	for file in os.listdir(path):
+		f = open(os.path.join(path, file), 'rb')
+		bin_vk = f.read()
+		f.close()
+
+		client_id = int(file[8:])
+		keys[client_id] = G2Elem.from_bytes(bin_vk, G)
+
+	return keys.values()
+
+
+def read_sigma(path, params):
+	(G, o, g1, g2, e) = params
+	f = open(path, 'rb')
+	bin_sigma = f.read()
+	f.close()
+
+	return G1Elem.from_bytes(bin_sigma, G)
+	
 
 
 @app.route('/signMessage/', methods=['POST'])
@@ -120,5 +144,26 @@ def signMessage():
 
 
 
+@app.route('/verifyMessage/', methods=['POST'])
+def verifyMessage():
+	"""
+	Verify the received message for BLS signature
+	"""
+
+	message = request.form.get("message")
+	path = request.form.get("key_path")
+	sigma_path = request.form.get("sigma")
+	
+	params = setup()
+	vk = read_keys(path, params)
+	aggr_vk = aggregate_vk(params, vk, threshold=False)
+	sigma = read_sigma(sigma_path, params)
+
+	# Verify
+	success = verify(params, aggr_vk, sigma, message)
+
+	return jsonify({"Success":success})
+	
+
 if __name__ == "__main__":
-	app.run(host="127.0.0.1", port=12000)
+	app.run(host="0.0.0.0", port=8051)
