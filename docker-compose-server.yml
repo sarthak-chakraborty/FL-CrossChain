@@ -105,10 +105,10 @@ services:
       - ${NETWORK}
     volumes:
       - .:/app
-      - ./fabric-samples/asset-transfer-basic/application-go-net-1/cnn_40/:/app/cnn_40
-      - ./fabric-samples/asset-transfer-basic/application-go-net-1/cnn_10/:/app/cnn_10
-      - ./fabric-samples/asset-transfer-basic/application-go-net-1/vgg_40/:/app/vgg_40
-      - ./fabric-samples/asset-transfer-basic/application-go-net-1/vgg_10/:/app/vgg_10
+      - ./fabric-samples/asset-transfer-basic/application-go-net1/cnn_40/:/app/cnn_40
+      - ./fabric-samples/asset-transfer-basic/application-go-net1/cnn_10/:/app/cnn_10
+      - ./fabric-samples/asset-transfer-basic/application-go-net1/vgg_40/:/app/vgg_40
+      - ./fabric-samples/asset-transfer-basic/application-go-net1/vgg_10/:/app/vgg_10
     depends_on:
       - db
     tty: true
