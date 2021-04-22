@@ -11,7 +11,9 @@ from federated.nodes.server.base_server import BaseServer
 
 from federated.keras_models.mobilenet import MobileNet
 from federated.keras_models.simple_cnn import SimpleCNN
+from federated.keras_models.simple_cnn_transfer import SimpleCNN as CNNTransfer
 from federated.keras_models.VGG11 import VGG
+from federated.keras_models.VGG11_transfer import VGG as VGGTransfer
 
 from federated.nodes.server.config import ServerConfig
 from federated.settings import Settings
@@ -55,6 +57,16 @@ class Coordinator(BaseServer):
 
 
 	@staticmethod
+	def get_cnn_transfer_model():
+		model = CNNTransfer(Settings.input_shape, Settings.num_classes)
+
+		optimizer = 'adam'
+		loss_fn = tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True)
+		metrics = ['accuracy']
+		return model, optimizer, loss_fn, metrics
+
+
+	@staticmethod
 	def get_mobilenet_model():
 		model = MobileNet(Settings.input_shape, Settings.num_classes)		
 		optimizer = 'adam'
@@ -81,6 +93,14 @@ class Coordinator(BaseServer):
 		metrics = ['accuracy']
 		return model, optimizer, loss_fn, metrics
 
+	@staticmethod
+	def get_vgg_model():
+		model = VGGTransfer(Settings.input_shape, Settings.num_classes, size=128)		
+		optimizer = 'adam'
+		loss_fn = tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True)
+		metrics = ['accuracy']
+		return model, optimizer, loss_fn, metrics
+
 
 	@staticmethod
 	def get_initial_model():
@@ -89,10 +109,14 @@ class Coordinator(BaseServer):
 			return Coordinator.get_default_model()
 		elif model == "cnn":
 			return Coordinator.get_cnn_model()
+		elif model == "cnn-transfer":
+			return Coordinator.get_cnn_transfer_model()
 		elif model == "mobilenet-v2":
 			return Coordinator.get_mobilenet_model()
 		elif model == "vgg11":
 			return Coordinator.get_vgg_model()
+		elif model == "vgg11-transfer":
+			return Coordinator.get_vgg_transfer_model()
 		elif model == "resnet":
 			return Coordinator.get_resnet_model()
 	
