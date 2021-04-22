@@ -118,6 +118,15 @@ class Coordinator(BaseServer):
 			if w == None:
 				return model
 			else:
+				print(w.shape)
+				num = len(w) - int(ServerConfig.last_weight_index)
+				w = w[:num]
+				model_weights = np.array(model.get_weights())
+				print(len(model_weights))
+
+				for i in range(num, len(model_weights)):
+					w = np.vstack((w, model_weights[i]))
+
 				model.set_weights(w)
 				return model
 				
