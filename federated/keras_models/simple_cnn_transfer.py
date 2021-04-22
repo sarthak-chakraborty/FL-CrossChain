@@ -13,7 +13,7 @@ def SimpleCNN(input_shape, num_classes):
                 MaxPool2D(),
                 Dropout(0.25),
                 Conv2D(128, (3, 3), padding='same', name='conv2D_128_1', activation='relu'), 
-                Conv2D(128, (3, 3), padding='same', name='conv2D_128_1', activation='relu'),
+                Conv2D(128, (3, 3), padding='same', name='conv2D_128_2', activation='relu'),
                 MaxPool2D(),
                 Dropout(0.5),
                 Conv2D(256, (3, 3), padding='same', name='conv2D_256_1', activation='relu'), 

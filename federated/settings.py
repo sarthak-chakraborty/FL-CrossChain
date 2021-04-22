@@ -42,12 +42,12 @@ class Settings:
     enable_crosschain = True
     
     # Dataset and partition strategy
-    dataset_id = 0
-    dataset = 'cifar-10'
+    dataset_id = 1
+    dataset = 'cifar-100'
     input_shape = (32, 32, 3)
     partition = 'iid'
     test_batch_size = 100
-    num_classes = 10
+    num_classes = 100
 
     # Cityscapes Dataset
     # dataset = 'cityscapes'

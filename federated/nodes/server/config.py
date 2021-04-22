@@ -3,20 +3,21 @@ class ServerConfig:
 	"""
 	Mention any server configurations here
 	"""
-	model = "cnn"
+	model = "cnn-transfer"
 
 	hparams = {
 		"num_epochs": 2,
-		"batch_size": 16
+		"batch_size": 32
 	}
 
 	stopping_criteria = {"version": 5000}
 	
-	weights = './received_asset_cifar_2.json
+	weights = '/app/cnn_40/received_asset-cifar_9.json'
+	last_weight_index = 2
 
 	# Synchronous Setting Parameters
-	selector_threshold = 40
-	aggregator_threshold = 40
+	selector_threshold = 10
+	aggregator_threshold = 10
 
 
 class DatabaseConfig:

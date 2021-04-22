@@ -1,5 +1,6 @@
 import tensorflow as tf
 import time
+import os
 import json
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense, Flatten
@@ -94,7 +95,7 @@ class Coordinator(BaseServer):
 		return model, optimizer, loss_fn, metrics
 
 	@staticmethod
-	def get_vgg_model():
+	def get_vgg_transfer_model():
 		model = VGGTransfer(Settings.input_shape, Settings.num_classes, size=128)		
 		optimizer = 'adam'
 		loss_fn = tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True)
@@ -122,6 +123,8 @@ class Coordinator(BaseServer):
 	
 	@staticmethod
 	def set_weights(model):
+		print(os.getcwd())
+		print("SERVER CONFIG . WEIGHTS = ", ServerConfig.weights)
 		if ServerConfig.weights == None:
 			return model
 		else:	
@@ -140,9 +143,10 @@ class Coordinator(BaseServer):
 			    w = None
 
 			if w == None:
+				print("Out from here")
 				return model
 			else:
-				print(w.shape)
+				print("NOT OUT FROM HERE", w.shape)
 				num = len(w) - int(ServerConfig.last_weight_index)
 				w = w[:num]
 				model_weights = np.array(model.get_weights())
@@ -165,6 +169,7 @@ class Coordinator(BaseServer):
 		ServerEvalMetric.destroy_db()
 		
 		model, optimizer, loss_fn, metrics = Coordinator.get_initial_model()
+		print("SETTING WEIGHTS")
 		model = Coordinator.set_weights(model)
 		print(model.summary())
 		kmodel = KerasModel(
