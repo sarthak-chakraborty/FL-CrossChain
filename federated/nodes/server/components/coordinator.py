@@ -140,9 +140,7 @@ class Coordinator(BaseServer):
 					w[i] = np.array(w[i])
 					if w[i].shape[1] == 1:
 						w[i] = w[i].reshape(w[i].shape[0])
-				print(i, w[i].shape)
-			except e:
-				print(e)
+			except:
 				w = None
 
 			if w == None:
@@ -151,14 +149,21 @@ class Coordinator(BaseServer):
 			else:
 				print("NOT OUT FROM HERE", w.shape)
 				num = len(w) - int(ServerConfig.last_weight_index)
-				w = w[:num]
+				# w = w[:num]
 				model_weights = np.array(model.get_weights())
 				print(len(model_weights))
+				
+				new_w = []
+				for i in range(len(w)):
+					if i < num:
+						new_w.append(w[i])
 
+				# new_w = list(w[:num])
 				for i in range(num, len(model_weights)):
-					w = np.vstack((w, model_weights[i]))
-
-				model.set_weights(w)
+					new_w.append(model_weights[i])
+				new_w = np.array(new_w)
+				print(new_w.shape)
+				model.set_weights(new_w)
 				return model
 				
 

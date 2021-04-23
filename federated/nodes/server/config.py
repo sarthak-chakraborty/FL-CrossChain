@@ -12,8 +12,8 @@ class ServerConfig:
 
 	stopping_criteria = {"version": 5000}
 	
-	weights = '/app/cnn_40/received_asset-cifar_9.json'
-	last_weight_index = 2
+	weights = '/app/cnn_40/received_asset-cifar_25.json'
+	last_weight_index = 4
 
 	# Synchronous Setting Parameters
 	selector_threshold = 10

@@ -124,6 +124,7 @@ class Cifar100(Loader):
 		self.target_width = target_width
 		self.partition = partition
 		self.validation_split = validation_split
+		self.num_data = 0
 		self._train_ds = None
 		self._test_ds = None
 		self._val_ds = None
