@@ -133,12 +133,13 @@ class Coordinator(BaseServer):
 			    f_open = open(ServerConfig.weights,)
 			    data = json.load(f_open)
 			    print(data.keys())
-
+			    print("len(w):",len(w))
 			    w = np.array(data['weights'])
 			    for i in range(len(w)):
 			        w[i] = np.array(w[i])
 			        if w[i].shape[1] == 1:
 			            w[i] = w[i].reshape(w[i].shape[0])
+				print(i, w[i].shape)
 			except:
 			    w = None
 
