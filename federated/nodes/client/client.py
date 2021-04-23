@@ -254,7 +254,7 @@ class Client(Node):
 			###############
 
 			weights = kmodel.get_weights()
-			print("[{}, Client_{}] {}, {}".format(self.endpoint, self.id, weights[0][0][0][0], weights[0][0][0][1]))
+			# print("[{}, Client_{}] {}, {}".format(self.endpoint, self.id, weights[0][0][0][0], weights[0][0][0][1]))
 			kmodel, new_model, history = self.train_model(data, kmodel)
 
 			################
@@ -283,7 +283,7 @@ class Client(Node):
 
 			# Send update
 			weights = kmodel.get_weights()
-			print("[{}, Client_{}] {}, {}".format(self.endpoint, self.id, weights[0][0][0][0], weights[0][0][0][1]))
+			# print("[{}, Client_{}] {}, {}".format(self.endpoint, self.id, weights[0][0][0][0], weights[0][0][0][1]))
 			self.send_update(kmodel, data, history, server_sent_ts, client_recv_ts)
 
 

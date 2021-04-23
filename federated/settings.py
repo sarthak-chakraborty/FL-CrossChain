@@ -47,7 +47,7 @@ class Settings:
     input_shape = (32, 32, 3)
     partition = 'iid'
     test_batch_size = 100
-    num_classes = 100
+    num_classes = 20
 
     # Cityscapes Dataset
     # dataset = 'cityscapes'

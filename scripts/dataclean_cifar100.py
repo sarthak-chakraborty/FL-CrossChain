@@ -14,10 +14,10 @@ trainData = unpickle(os.path.join(IN_PATH, 'train'))
 testData = unpickle(os.path.join(IN_PATH, 'test'))
 
 im_train = trainData['data']
-im_train_label = trainData['fine_labels']
+im_train_label = trainData['coarse_labels']
 
 im_test = testData['data']
-im_test_label = testData['fine_labels']
+im_test_label = testData['coarse_labels']
 
 
 X_train = im_train.reshape(len(im_train),3,32,32).transpose(0,2,3,1)
