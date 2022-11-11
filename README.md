@@ -4,15 +4,15 @@ This is the repository corresponding to the paper titled "Proof of Federated Tra
 
 ***Please cite our paper in any published work that uses any of these resources***
 
-> @INPROCEEDINGS{9805548,
-  author={Chakraborty, Sarthak and Chakraborty, Sandip},
-  booktitle={2022 IEEE International Conference on Blockchain and Cryptocurrency (ICBC)}, 
-  title={Proof of Federated Training: Accountable Cross-Network Model Training and Inference}, 
-  year={2022},
-  volume={},
-  number={},
-  pages={1-9},
-  doi={10.1109/ICBC54727.2022.9805548}}
+> @INPROCEEDINGS{9805548,  
+  author={Chakraborty, Sarthak and Chakraborty, Sandip},   
+  booktitle={2022 IEEE International Conference on Blockchain and Cryptocurrency (ICBC)},  
+  title={Proof of Federated Training: Accountable Cross-Network Model Training and Inference},  
+  year={2022}, 
+  volume={},  
+  number={},  
+  pages={1-9},  
+  doi={10.1109/ICBC54727.2022.9805548}}  
 
 
 ## Abstract
