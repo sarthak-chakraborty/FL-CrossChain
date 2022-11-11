@@ -1,6 +1,6 @@
 #!/bin/bash
 function home() {
-    cd "$HOME/KGP-Documents/MTP/Code/FL/"
+    cd "$HOME/FL-CrossChain/"
 }
 
 sudo rm -rf data
@@ -16,7 +16,7 @@ docker volume prune -f
 export NETWORK=$1
 docker network create -d overlay --attachable $1
 curl -sSL https://bit.ly/2ysbOFE | bash -s -- 2.2.0 1.4.8
-source fabric-samples/test-network-1/run-crosschain.sh
+source blockchain/test-network-1/run-crosschain.sh
 nohup go run cross-chain-application.go > cross-chain.out &
 nohup python3 peerApplication/sign.py > sign.out &
 
